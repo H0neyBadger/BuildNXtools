@@ -6,9 +6,9 @@ ENV DEVKITPPC=/opt/devkitpro/devkitPPC
 
 
 ENV WORKDIR="/build"
-# CHANGEME !
-ENV OWNER_UID="10001"
-ENV OWNER_GID="5001"
+# build args 
+ARG OWNER_UID
+ARG OWNER_GID
 
 WORKDIR "${WORKDIR}"
 
@@ -32,7 +32,8 @@ RUN pacman --noconfirm -S \
     squashfs-tools \
     base-devel \
     git \
-    cmake
+    cmake \
+    libx11
 
 # Install devkitpro 
 # doc source :
@@ -51,14 +52,16 @@ RUN pacman --noconfirm -U https://downloads.devkitpro.org/devkitpro-keyring-r1.7
 RUN pacman -Sy
 
 RUN pacman --noconfirm -Syu
+
+#RUN pacman --noconfirm -S $(pacman -Slq dkp-libs)
+
 RUN pacman --noconfirm -S \
-    gp32-dev \
-    gba-dev \
-    nds-dev \
-    3ds-dev \
-    wii-dev \
-    gamecube-dev \
-    switch-dev 
+    switch-dev \
+    switch-zlib \
+    switch-sdl2 \
+    switch-freetype \
+    sfml \
+    devkitARM 
 
 RUN pip3 install -U pip
 
