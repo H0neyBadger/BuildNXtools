@@ -23,6 +23,7 @@ git_update "https://github.com/switchbrew/switch-tools.git" "./switch-tools"
 git_update "https://github.com/switchbrew/libnx.git" "./libnx"
 git_update "https://github.com/CTCaer/hekate.git" "./hekate"
 git_update "https://github.com/reswitched/fusee-launcher.git" "./fusee-launcher"
+git_update "https://github.com/Atmosphere-NX/Atmosphere.git" "./Atmosphere"
 git_update "https://github.com/Reisyukaku/ReiNX.git" "./ReiNX"
 git_update "https://github.com/Adubbz/Tinfoil.git" "./Tinfoil"
 # Use sfml from pacman
@@ -80,6 +81,9 @@ simple_make "./fusee-launcher"
 echo "Build nx-hbmenu"
 export PKG_CONFIG_PATH="${DEVKITPRO}/portlibs/switch/lib/pkgconfig/"
 simple_make "./nx-hbmenu"
+
+echo "Build Atmosphere"
+simple_make "./Atmosphere"
 
 echo "Build ReiNX"
 simple_make "./ReiNX"
