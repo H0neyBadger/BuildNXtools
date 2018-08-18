@@ -60,6 +60,7 @@ RUN pacman --noconfirm -S \
     switch-zlib \
     switch-sdl2 \
     switch-freetype \
+    switch-curl \
     sfml \
     devkitARM 
 
