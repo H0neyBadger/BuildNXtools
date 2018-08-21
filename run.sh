@@ -19,6 +19,7 @@ simple_make(){
 echo "Downloading git repos"
 git_update "https://github.com/reswitched/libtransistor-base.git" "./libtransistor-base"
 git_update "https://github.com/reswitched/libtransistor.git" "./libtransistor"
+git_update "https://github.com/reswitched/sdl-libtransistor.git" "./sdl-libtransistor"
 git_update "https://github.com/switchbrew/switch-tools.git" "./switch-tools"
 git_update "https://github.com/switchbrew/libnx.git" "./libnx"
 git_update "https://github.com/CTCaer/hekate.git" "./hekate"
@@ -49,6 +50,13 @@ echo "Setting up libtransistor env"
 
 echo "Build libtransistor"
 simple_make "./libtransistor"
+
+echo "Build sdl-libtransistor"
+export LIBTRANSISTOR_HOME="$(pwd)/libtransistor/dist/"
+pushd "./sdl-libtransistor"
+make clean
+make -f switch.mk
+popd
 
 # deactivate python virtualenv
 deactivate
