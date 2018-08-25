@@ -23,7 +23,7 @@ Note for SELinux users: to avoid trouble with selinux and docker mounted files; 
 # chcon -Rv -t container_file_t ./*
 
 # Redefine the default SELinux context for the current dir 
-sudo semanage fcontext --add $(pwd) --type container_file_t
+sudo semanage fcontext --add "$(pwd)(/.*)?" --type container_file_t
 # Verify
 sudo semanage fcontext -l | grep  "$(pwd)"
 # Apply
