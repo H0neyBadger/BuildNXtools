@@ -16,7 +16,7 @@ WORKDIR "${WORKDIR}"
 RUN groupadd --gid "${OWNER_GID}" "builder" 
 RUN useradd --uid "${OWNER_UID}" \
     --gid "${OWNER_GID}" \
-    --home-dir "${WORKDIR}" "builder"
+    "builder"
 
 # Upgarde image
 RUN pacman --noconfirm -Syu

@@ -35,9 +35,9 @@ echo "Build Config"
 
 pushd "./libtransistor-base"
 echo "Build libtransistor-base"
-virtualenv ./.venv
+virtualenv /tmp/.venv
 set +eu
-source ./.venv/bin/activate
+source /tmp/.venv/bin/activate
 set -eu 
 # pip install -U https://github.com/eliben/pyelftools/archive/master.tar.gz
 pip install -U -r ./requirements.txt
@@ -54,7 +54,7 @@ simple_make "./libtransistor"
 echo "Build sdl-libtransistor"
 export LIBTRANSISTOR_HOME="$(pwd)/libtransistor/dist/"
 pushd "./sdl-libtransistor"
-make clean
+make -f switch.mk clean
 make -f switch.mk
 popd
 
@@ -90,12 +90,12 @@ echo "Build nx-hbmenu"
 export PKG_CONFIG_PATH="${DEVKITPRO}/portlibs/switch/lib/pkgconfig/"
 simple_make "./nx-hbmenu"
 
-echo "Build Atmosphere"
-simple_make "./Atmosphere"
-
 echo "Build ReiNX"
 simple_make "./ReiNX"
 
 echo "Build /Tinfoil"
 simple_make "./Tinfoil"
+
+echo "Build Atmosphere"
+simple_make "./Atmosphere"
 
