@@ -62,7 +62,11 @@ RUN pacman --noconfirm -S \
     switch-freetype \
     switch-curl \
     sfml \
-    devkitARM 
+    devkitARM \
+    switch-mesa \
+    switch-glad \
+    switch-glm \
+    switch-libconfig
 
 RUN pip3 install -U pip
 

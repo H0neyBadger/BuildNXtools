@@ -4,7 +4,7 @@ set -euxo pipefail
 git_update() {
     # set +e
     git clone --recursive --depth=1 \
-    "$1" "$2" || (cd "$2"; git pull; git submodule sync)
+    "$1" "$2" || (cd "$2"; git pull; git submodule update --init --recursive; git submodule sync)
     # set -e
 }
 
@@ -88,7 +88,11 @@ simple_make "./fusee-launcher"
 
 echo "Build nx-hbmenu"
 export PKG_CONFIG_PATH="${DEVKITPRO}/portlibs/switch/lib/pkgconfig/"
-simple_make "./nx-hbmenu"
+pushd "./nx-hbmenu"
+make nx clean
+make nx
+popd
+
 
 echo "Build ReiNX"
 simple_make "./ReiNX"
