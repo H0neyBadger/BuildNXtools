@@ -26,7 +26,7 @@ git_update "https://github.com/CTCaer/hekate.git" "./hekate"
 git_update "https://github.com/reswitched/fusee-launcher.git" "./fusee-launcher"
 git_update "https://github.com/Atmosphere-NX/Atmosphere.git" "./Atmosphere"
 git_update "https://github.com/Reisyukaku/ReiNX.git" "./ReiNX"
-git_update "https://github.com/Adubbz/Tinfoil.git" "./Tinfoil"
+git_update "https://github.com/XorTroll/Tinfoil.git" "./Tinfoil"
 # Use sfml from pacman
 #git_update "https://github.com/SFML/SFML.git" "./SFML"
 git_update "https://github.com/switchbrew/nx-hbmenu.git" "./nx-hbmenu"
