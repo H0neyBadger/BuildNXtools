@@ -1,11 +1,11 @@
 README
 ======
-This project use docker ArchLinux image to build nintendo switch tools and homebrews.
+This project use podman ArchLinux image to build nintendo switch tools and homebrews.
 
 Run
 ---
 ```bash
-sudo ./docker_build.sh
+sudo ./podman_build.sh
 ```
 
 Or from your host system
@@ -20,7 +20,7 @@ Note for SELinux users: to avoid trouble with selinux and docker mounted files; 
 
 ```
 # For tests only
-# chcon -Rv -t container_file_t ./*
+# chcon -Rv -t container_file_t './'
 
 # Redefine the default SELinux context for the current dir 
 sudo semanage fcontext --add "$(pwd)(/.*)?" --type container_file_t

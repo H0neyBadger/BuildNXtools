@@ -1,4 +1,4 @@
-FROM base/archlinux:latest
+FROM docker.io/archlinux/base
 
 ENV DEVKITPRO=/opt/devkitpro
 ENV DEVKITARM=/opt/devkitpro/devkitARM
@@ -6,17 +6,7 @@ ENV DEVKITPPC=/opt/devkitpro/devkitPPC
 
 
 ENV WORKDIR="/build"
-# build args 
-ARG OWNER_UID
-ARG OWNER_GID
-
 WORKDIR "${WORKDIR}"
-
-# BUILD as non-root user
-RUN groupadd --gid "${OWNER_GID}" "builder" 
-RUN useradd --uid "${OWNER_UID}" \
-    --gid "${OWNER_GID}" \
-    "builder"
 
 # Upgarde image
 RUN pacman --noconfirm -Syu
@@ -35,6 +25,7 @@ RUN pacman --noconfirm -S \
     cmake \
     libx11
 
+RUN pacman-key --init
 # Install devkitpro 
 # doc source :
 # https://devkitpro.org/wiki/devkitPro_pacman
@@ -70,5 +61,4 @@ RUN pacman --noconfirm -S \
 
 RUN pip3 install -U pip
 
-USER builder
 
