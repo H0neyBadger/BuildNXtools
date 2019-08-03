@@ -1,0 +1,65 @@
+---
+# tasks file for auto_fusee_gelee
+
+- name: clone the latest release of fusee gelee
+  git:
+    repo: "{{ git_url }}"
+    # use root home to deploy project 
+    # to avoid security hole with systemd service (run a root)
+    dest: "{{ project_directory }}"
+  become: true
+
+- name: Copy payload
+  copy:
+    dest: "{{ payload_remote_path }}"
+    src: "{{ payload_path }}"
+  become: true
+  when: payload_remote_path is defined
+
+- name: Build virtualenv for fusee-launcher
+  command: "python3 -m venv {{ (project_directory + '/venv') | realpath | quote }}"
+  args:
+    creates: "{{ (project_directory + '/venv') | realpath | quote }}"
+  become: true
+  
+- name: Install virtualenv requirements.txt for fusee-launcher
+  command: "{{ (project_directory + '/venv/bin/pip3') | realpath | quote }} install -r {{ (project_directory + '/requirements.txt') | realpath | quote }} "
+  become: true
+
+- name: Create systemd service
+  copy:
+    dest: /etc/systemd/system/fusee-launcher.service 
+    content: |
+      [Unit]
+      Description=fusee-launcher.service
+
+      [Service]
+      Type=simple
+      User=root
+      ExecStart={{ project_directory + '/venv/bin/python3' | realpath | quote }} \
+        {{ project_directory + '/fusee-launcher.py' | realpath | quote }} {{ payload_remote_path | default(payload_path) | realpath | quote }}
+  become: true
+
+# Bus 003 Device 014: ID 0955:7321 NVIDIA Corp. APX
+# T:  Bus=03 Lev=01 Prnt=01 Port=03 Cnt=01 Dev#= 14 Spd=480 MxCh= 0
+# D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+# P:  Vendor=0955 ProdID=7321 Rev=01.02
+# S:  Manufacturer=NVIDIA Corp.
+# S:  Product=APX
+# C:  #Ifs= 1 Cfg#= 1 Atr=c0 MxPwr=32mA
+# I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+
+- name: Build /etc/udev/rules.d/95-fusee_gelee.rules
+  copy:
+    dest: /etc/udev/rules.d/95-fusee_gelee.rules
+    content: |
+      ACTION=="add", ATTRS{idVendor}=="0955", ATTRS{idProduct}=="7321", TAG+="systemd", ENV{SYSTEMD_WANTS}="fusee-launcher.service"
+  become: true
+
+
+- name: Run systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+    name: fusee-launcher.service 
+  become: true
+

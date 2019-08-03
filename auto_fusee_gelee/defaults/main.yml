@@ -1,0 +1,10 @@
+---
+# defaults file for auto_fusee_gelee
+
+git_url : "https://github.com/Qyriad/fusee-launcher.git"
+# use root home dir to deploy executable 
+# to avoid security hole with systemd service (run a root)
+project_directory: "/root/fusee-launcher"
+payload_remote_path: "{{ (project_directory + '/payload.bin') | realpath }}"
+payload_path: "./hekate/output/hekate.bin"
+
