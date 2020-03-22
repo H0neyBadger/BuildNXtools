@@ -3,6 +3,7 @@ FROM docker.io/archlinux/base
 ENV DEVKITPRO=/opt/devkitpro
 ENV DEVKITARM=/opt/devkitpro/devkitARM
 ENV DEVKITPPC=/opt/devkitpro/devkitPPC
+ENV PATH="${PATH}:${DEVKITARM}/bin/:${DEVKITPPC}/bin/"
 
 
 ENV WORKDIR="/build"
